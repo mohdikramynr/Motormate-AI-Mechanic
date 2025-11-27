@@ -22,18 +22,35 @@ class Query(BaseModel):
 
 
 KEYWORDS = {
-    "white smoke": "Engine oil burning - piston ring problem. Immediate checking required.",
-    "black smoke": "Excess fuel burning - Carburetor or injector issue.",
-    "not start": "Battery problem, spark plug issue or ignition switch fault.",
-    "engine noise": "Serious engine issue - visit mechanic immediately.",
-    "dead battery": "Battery replacement required.",
-    "brake not working": "Brake shoe worn out or cable loose."
+    "white smoke": "Engine oil is burning due to worn piston rings.",
+    "black smoke": "Too much fuel is burning - carburetor or injector issue.",
+    "not start": "Battery, spark plug, or ignition switch problem.",
+    "engine noise": "Loose parts or low engine oil.",
+    "dead battery": "Battery has no charge.",
+    "brake not working": "Brake shoe worn or cable loose.",
+    "bike overheating": "Cooling system failure or low coolant.",
+    "engine stalls": "Fuel supply problem or dirty air filter.",
+    "low mileage": "Clogged air filter or wrong fuel mixture.",
+    "hard gear": "Clutch cable tight or gearbox issue.",
+    "bike jerking": "Fuel injector blockage or spark plug fault.",
+    "vibration": "Loose nuts or wheel imbalance.",
+    "chain noise": "Dry or loose chain.",
+    "oil leakage": "Damaged engine gasket or seal.",
+    "headlight not working": "Blown bulb or wiring issue."
 }
 
 def find_keyword_response(text: str):
     for key, solution in KEYWORDS.items():
         if key in text:
-            return f"🔧 Problem Detected: {key}\n Solution: {solution}"
+            return f"""🔧 Problem Detected: {key}
+Solution: {solution}
+
+⚠️ Important Notice:
+If your bike or scooty has any serious problem, unusual noise, heavy smoke, or feels unsafe to ride, immediately check your mechanic.
+
+👨‍🔧 Safety Tip:
+Wear gloves and avoid touching hot parts. If problem continues, visit a professional mechanic.
+"""
     return None
 
 
@@ -50,6 +67,19 @@ async def analyze_problem(query: Query):
 
     if "thank" in user_text:
         return {"response": " You're welcome! Ride safe."}
+    
+    # ✅ Mechanic location / contact query
+    if any(word in user_text for word in ["mechanic", "where is mechanic", "contact mechanic", "repair shop"]):
+        return {
+            "response": """
+🏍️ Recommended Mechanic:
+
+🔧 Name: Islam Auto Center  
+📞 Contact Number: 9416680786  
+
+You can visit or call for professional bike and scooty repair services.
+"""
+        }
 
     # 👉 Keyword System First
     keyword_reply = find_keyword_response(user_text)
