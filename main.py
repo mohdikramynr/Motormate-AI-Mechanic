@@ -42,13 +42,13 @@ KEYWORDS = {
 def find_keyword_response(text: str):
     for key, solution in KEYWORDS.items():
         if key in text:
-            return f"""🔧 Problem Detected: {key}
+            return f""" Problem Detected: {key}
 Solution: {solution}
 
-⚠️ Important Notice:
+     Important Notice:
 If your bike or scooty has any serious problem, unusual noise, heavy smoke, or feels unsafe to ride, immediately check your mechanic.
 
-👨‍🔧 Safety Tip:
+     Safety Tip:
 Wear gloves and avoid touching hot parts. If problem continues, visit a professional mechanic.
 """
     return None
@@ -58,9 +58,9 @@ Wear gloves and avoid touching hot parts. If problem continues, visit a professi
 async def analyze_problem(query: Query):
     user_text = query.symptom.lower().strip()
 
-    # 👉 Greeting handling
+    #  Greeting handling
     if user_text in ["hi", "hello", "hey"]:
-        return {"response": "👋 Hello! Tell me your bike or scooty problem."}
+        return {"response": " Hello! Tell me your bike or scooty problem."}
 
     if "how are you" in user_text:
         return {"response": " I'm good! Ready to fix your bike problems."}
@@ -72,21 +72,21 @@ async def analyze_problem(query: Query):
     if any(word in user_text for word in ["mechanic", "where is mechanic", "contact mechanic", "repair shop"]):
         return {
             "response": """
-🏍️ Recommended Mechanic:
+     Recommended Mechanic:
 
-🔧 Name: Islam Auto Center  
-📞 Contact Number: 9416680786  
+    Name: Islam Auto Center  
+    Contact Number: 9416680786  
 
 You can visit or call for professional bike and scooty repair services.
 """
         }
 
-    # 👉 Keyword System First
+    #  Keyword System First
     keyword_reply = find_keyword_response(user_text)
     if keyword_reply:
         return {"response": keyword_reply}
 
-    # 👉 AI Fallback
+    #  AI Fallback
     try:
         prompt = f"""
         You are an expert bike mechanic.
